@@ -23,7 +23,7 @@ namespace Proculite.GpioRest.Services
 
         private void SetupPins()
         {
-            _logger.LogInformation("Setting up {PinCount} pins", _pins.Length);
+            _logger.LogInformation("Setting up {PinCount} pins.", _pins.Length);
             PinMode pinMode = PinMode.Output;
 
             foreach (var pin in _pins)
