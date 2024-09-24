@@ -42,5 +42,10 @@ namespace Proculite.GpioRest.Services
                 _gpioController.OpenPin(pin, pinMode, PinValue.Low);
             }
         }
+
+        public PinValue CurrentPinValue(int pinNumber)
+        {
+            return _gpioController.Read(pinNumber);
+        }
     }
 }
