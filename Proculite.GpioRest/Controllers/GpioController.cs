@@ -16,10 +16,10 @@ namespace Proculite.GpioRest.Controllers
         [HttpGet("pin-value/{pinNumber}")]
         public IActionResult PinValue(int pinNumber)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest();
-                
-            return Ok(_gpioService.CurrentPinValue(pinNumber));
+
+            return Ok(_gpioService.CurrentPinValue(pinNumber).ToString());
         }
     }
 }
