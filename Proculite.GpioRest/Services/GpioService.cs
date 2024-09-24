@@ -40,7 +40,6 @@ namespace Proculite.GpioRest.Services
                 }
 
                 _gpioController.OpenPin(pin, pinMode, PinValue.Low);
-                Thread.Sleep(200);
             }
         }
 
