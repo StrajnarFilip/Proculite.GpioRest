@@ -27,5 +27,23 @@ namespace Proculite.GpioRest.Controllers
         {
             return Ok(_gpioService.StateOfAllPins());
         }
+
+        [HttpPut("pin-value/high/{pinNumber}")]
+        public IActionResult SetPinHigh(int pinNumber)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(_gpioService.SetPinHighReturning(pinNumber));
+        }
+
+        [HttpPut("pin-value/low/{pinNumber}")]
+        public IActionResult SetPinLow(int pinNumber)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(_gpioService.SetPinLowReturning(pinNumber));
+        }
     }
 }
