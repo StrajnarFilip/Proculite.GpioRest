@@ -1,4 +1,5 @@
 using System.Device.Gpio;
+using Proculite.GpioRest.Models;
 
 namespace Proculite.GpioRest.Services
 {
@@ -46,6 +47,16 @@ namespace Proculite.GpioRest.Services
         public PinValue CurrentPinValue(int pinNumber)
         {
             return _gpioController.Read(pinNumber);
+        }
+
+        public PinValueModel PinValueModelOfPin(int pinNumber)
+        {
+            return new PinValueModel(pinNumber, _gpioController.Read(pinNumber));
+        }
+
+        public PinValueModel[] StateOfAllPins()
+        {
+            return _pins.Select(PinValueModelOfPin).ToArray();
         }
     }
 }
