@@ -69,6 +69,13 @@ namespace Proculite.GpioRest.Services
             _gpioController.Write(pinNumber, PinValue.Low);
         }
 
+        public void TogglePin(int pinNumber)
+        {
+            PinValue currentValue = CurrentPinValue(pinNumber);
+            PinValue newValue = currentValue == PinValue.High ? PinValue.Low : PinValue.High;
+            _gpioController.Write(pinNumber, newValue);
+        }
+
         public PinValueModel SetPinHighReturning(int pinNumber)
         {
             SetPinHigh(pinNumber);
@@ -78,6 +85,12 @@ namespace Proculite.GpioRest.Services
         public PinValueModel SetPinLowReturning(int pinNumber)
         {
             SetPinLow(pinNumber);
+            return PinValueModelOfPin(pinNumber);
+        }
+
+        public PinValueModel TogglePinReturning(int pinNumber)
+        {
+            TogglePin(pinNumber);
             return PinValueModelOfPin(pinNumber);
         }
     }
