@@ -58,5 +58,27 @@ namespace Proculite.GpioRest.Services
         {
             return _pins.Select(PinValueModelOfPin).ToArray();
         }
+
+        public void SetPinHigh(int pinNumber)
+        {
+            _gpioController.Write(pinNumber, PinValue.High);
+        }
+
+        public void SetPinLow(int pinNumber)
+        {
+            _gpioController.Write(pinNumber, PinValue.Low);
+        }
+
+        public PinValueModel SetPinHighReturning(int pinNumber)
+        {
+            SetPinHigh(pinNumber);
+            return PinValueModelOfPin(pinNumber);
+        }
+
+        public PinValueModel SetPinLowReturning(int pinNumber)
+        {
+            SetPinLow(pinNumber);
+            return PinValueModelOfPin(pinNumber);
+        }
     }
 }
