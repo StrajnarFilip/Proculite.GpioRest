@@ -1,5 +1,6 @@
 using System.Device.Gpio;
 using Proculite.GpioRest.Models;
+using Proculite.GpioRest.Wrappers;
 
 namespace Proculite.GpioRest.Services
 {
@@ -7,7 +8,7 @@ namespace Proculite.GpioRest.Services
     {
         public readonly ILogger<GpioService> _logger;
         private readonly int[] _pins;
-        private readonly GpioController _gpioController;
+        private readonly Dictionary<int, PwmWrapper> _pwmPins;
 
         public GpioService(ILogger<GpioService> logger, IConfiguration configuration)
         {
@@ -18,7 +19,6 @@ namespace Proculite.GpioRest.Services
                 .Select(pin => pin.Get<int>())
                 .ToArray();
 
-            _gpioController = new GpioController();
             SetupPins();
         }
 
@@ -29,29 +29,18 @@ namespace Proculite.GpioRest.Services
 
             foreach (var pin in _pins)
             {
-                if (_gpioController.IsPinOpen(pin))
-                {
-                    _logger.LogWarning("Pin number {Pin} is already open.", pin);
-                    continue;
-                }
-
-                if (!_gpioController.IsPinModeSupported(pin, pinMode))
-                {
-                    _logger.LogWarning("Pin number {Pin} does not support {PinMode}", pin, pinMode);
-                }
-
-                _gpioController.OpenPin(pin, pinMode, PinValue.Low);
+                _pwmPins[pin] = new PwmWrapper(pin);
             }
         }
 
-        public PinValue CurrentPinValue(int pinNumber)
+        public PinValueModel CurrentPinValue(int pinNumber)
         {
-            return _gpioController.Read(pinNumber);
+            return new PinValueModel(pinNumber, _pwmPins[pinNumber].Value);
         }
 
         public PinValueModel PinValueModelOfPin(int pinNumber)
         {
-            return new PinValueModel(pinNumber, _gpioController.Read(pinNumber));
+            return new PinValueModel(pinNumber, _pwmPins[pinNumber].Value);
         }
 
         public PinValueModel[] StateOfAllPins()
@@ -61,19 +50,18 @@ namespace Proculite.GpioRest.Services
 
         public void SetPinHigh(int pinNumber)
         {
-            _gpioController.Write(pinNumber, PinValue.High);
+            _pwmPins[pinNumber].SetHigh();
         }
 
         public void SetPinLow(int pinNumber)
         {
-            _gpioController.Write(pinNumber, PinValue.Low);
+            _pwmPins[pinNumber].SetLow();
         }
 
         public void TogglePin(int pinNumber)
         {
-            PinValue currentValue = CurrentPinValue(pinNumber);
-            PinValue newValue = currentValue == PinValue.High ? PinValue.Low : PinValue.High;
-            _gpioController.Write(pinNumber, newValue);
+            double currentValue = _pwmPins[pinNumber].Value;
+            _pwmPins[pinNumber].Value = currentValue > 0 ? 0 : 1;
         }
 
         public PinValueModel SetPinHighReturning(int pinNumber)
