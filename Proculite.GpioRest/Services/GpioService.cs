@@ -8,7 +8,7 @@ namespace Proculite.GpioRest.Services
     {
         public readonly ILogger<GpioService> _logger;
         private readonly int[] _pins;
-        private readonly Dictionary<int, PwmWrapper> _pwmPins;
+        private readonly Dictionary<int, PwmWrapper> _pwmPins = new();
 
         public GpioService(ILogger<GpioService> logger, IConfiguration configuration)
         {
@@ -25,7 +25,6 @@ namespace Proculite.GpioRest.Services
         private void SetupPins()
         {
             _logger.LogInformation("Setting up {PinCount} pins.", _pins.Length);
-            PinMode pinMode = PinMode.Output;
 
             foreach (var pin in _pins)
             {
