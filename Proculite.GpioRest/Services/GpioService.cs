@@ -32,7 +32,7 @@ namespace Proculite.GpioRest.Services
             }
         }
 
-        public PinModel PinValueModelOfPin(int pinNumber)
+        public PinModel PinModelOfPin(int pinNumber)
         {
             PwmWrapper pwmWrapper = _pwmPins[pinNumber];
             return new PinModel(pinNumber, pwmWrapper.Value, pwmWrapper.Frequency);
@@ -40,7 +40,7 @@ namespace Proculite.GpioRest.Services
 
         public PinModel[] StateOfAllPins()
         {
-            return _pins.Select(PinValueModelOfPin).ToArray();
+            return _pins.Select(PinModelOfPin).ToArray();
         }
 
         public void SetPinHigh(int pinNumber)
@@ -72,31 +72,31 @@ namespace Proculite.GpioRest.Services
         public PinModel SetPinHighReturning(int pinNumber)
         {
             SetPinHigh(pinNumber);
-            return PinValueModelOfPin(pinNumber);
+            return PinModelOfPin(pinNumber);
         }
 
         public PinModel SetPinLowReturning(int pinNumber)
         {
             SetPinLow(pinNumber);
-            return PinValueModelOfPin(pinNumber);
+            return PinModelOfPin(pinNumber);
         }
 
         public PinModel TogglePinReturning(int pinNumber)
         {
             TogglePin(pinNumber);
-            return PinValueModelOfPin(pinNumber);
+            return PinModelOfPin(pinNumber);
         }
 
         public PinModel SetPinReturning(int pinNumber, double pinValue)
         {
             SetPin(pinNumber, pinValue);
-            return PinValueModelOfPin(pinNumber);
+            return PinModelOfPin(pinNumber);
         }
 
         public PinModel SetPinFrequencyReturning(int pinNumber, int pinFrequency)
         {
             _pwmPins[pinNumber].Frequency = pinFrequency;
-            return PinValueModelOfPin(pinNumber);
+            return PinModelOfPin(pinNumber);
         }
     }
 }

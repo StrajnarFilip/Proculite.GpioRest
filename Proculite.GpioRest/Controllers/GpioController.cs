@@ -19,7 +19,7 @@ namespace Proculite.GpioRest.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            return Ok(_gpioService.PinValueModelOfPin(pinNumber));
+            return Ok(_gpioService.PinModelOfPin(pinNumber));
         }
 
         [HttpGet("pin-value")]
