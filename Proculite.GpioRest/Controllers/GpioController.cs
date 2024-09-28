@@ -55,6 +55,15 @@ namespace Proculite.GpioRest.Controllers
             return Ok(_gpioService.SetPinReturning(pinNumber, pinValue));
         }
 
+        [HttpPut("pin-frequency/{pinNumber}/{pinFrequency}")]
+        public IActionResult SetPinFrequency(int pinNumber, int pinFrequency)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(_gpioService.SetPinFrequencyReturning(pinNumber, pinFrequency));
+        }
+
         [HttpPost("pin-value/toggle/{pinNumber}")]
         public IActionResult TogglePin(int pinNumber)
         {

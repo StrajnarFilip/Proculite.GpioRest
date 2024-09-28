@@ -64,6 +64,11 @@ namespace Proculite.GpioRest.Services
             _pwmPins[pinNumber].Value = pinValue;
         }
 
+        public void SetPinFrequency(int pinNumber, int pinFrequency)
+        {
+            _pwmPins[pinNumber].Frequency = pinFrequency;
+        }
+
         public PinModel SetPinHighReturning(int pinNumber)
         {
             SetPinHigh(pinNumber);
@@ -85,6 +90,12 @@ namespace Proculite.GpioRest.Services
         public PinModel SetPinReturning(int pinNumber, double pinValue)
         {
             SetPin(pinNumber, pinValue);
+            return PinValueModelOfPin(pinNumber);
+        }
+
+        public PinModel SetPinFrequencyReturning(int pinNumber, int pinFrequency)
+        {
+            _pwmPins[pinNumber].Frequency = pinFrequency;
             return PinValueModelOfPin(pinNumber);
         }
     }
