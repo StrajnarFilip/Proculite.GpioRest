@@ -1,3 +1,4 @@
+using Proculite.GpioRest.Middlewares;
 using Proculite.GpioRest.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,9 @@ builder.Services.AddControllers();
 builder.Services.AddSingleton<GpioService>();
 
 var app = builder.Build();
+
+// Custom security. Expects traffic to be secure (HTTPS).
+app.UseSecurity();
 
 app.MapControllers();
 app.UseSwagger();
