@@ -13,6 +13,12 @@ namespace Proculite.GpioRest.Wrappers
             set { _softwarePwmChannel.DutyCycle = value; }
         }
 
+        public int Frequency
+        {
+            get => _softwarePwmChannel.Frequency;
+            set => _softwarePwmChannel.Frequency = value;
+        }
+
         public PwmWrapper(int pinNumber, ILogger? logger = null)
         {
             PinNumber = pinNumber;

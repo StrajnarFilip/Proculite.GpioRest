@@ -32,14 +32,10 @@ namespace Proculite.GpioRest.Services
             }
         }
 
-        public PinModel CurrentPinValue(int pinNumber)
-        {
-            return new PinModel(pinNumber, _pwmPins[pinNumber].Value);
-        }
-
         public PinModel PinValueModelOfPin(int pinNumber)
         {
-            return new PinModel(pinNumber, _pwmPins[pinNumber].Value);
+            PwmWrapper pwmWrapper = _pwmPins[pinNumber];
+            return new PinModel(pinNumber, pwmWrapper.Value, pwmWrapper.Frequency);
         }
 
         public PinModel[] StateOfAllPins()
